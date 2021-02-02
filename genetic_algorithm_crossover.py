@@ -1,8 +1,13 @@
 import numpy as np
 import random
-genetic_population=np.array([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
+#genetic_population=np.array([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
+N=10000##设置染色体长度
+random_male=np.zeros((2,N))##初始2个样本
 
-for  i in range (1000):
+random_female=np.ones((2,N))
+genetic_population=np.r_[random_male,random_female]
+
+for  i in range (5):
     lens=len(genetic_population)####个体数
     len_chrom=len(genetic_population[0])###染色体长度
     #print(len_chrom)
@@ -10,6 +15,12 @@ for  i in range (1000):
     male2=male1+1
     female1=random.randint(0,int((lens)*0.5)-1)
     female2=female1+1
+    presedu=random.random()
+    if i==0:##首次为杂交
+        presedu=0.02
+    if presedu>0.5:####设置自交或者杂交的比例
+        female1=male1
+        female2=male2
     #i=1##0为第0个个体和第一个交换，1为第一个和第二个交换
     change_point_male =random.randint(0,len_chrom+1)
     change_point_female =random.randint(0,len_chrom+1)
@@ -46,7 +57,7 @@ for  i in range (1000):
         temp=temp2
     genetic_population = np.r_[genetic_population,temp]
 
-print(genetic_population)
+#print(genetic_population)
 lens=len(genetic_population)
 for i in range(int((lens)*0.5)-1):
     #print(genetic_population[i],genetic_population[i+1])
@@ -60,5 +71,4 @@ for i in range(int((lens)*0.5)-1):
             list.append('mix')
         if genetic_population[i][each]==1 and genetic_population[i+1][each]==0:
             list.append('mix')
-    print(list)
-    del list
+print(list)
